@@ -1,1 +1,27 @@
 
+name: Build and Push to ACR
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Log in to ACR
+        uses: azure/docker-login@v2
+        with:
+          login-server: kavyagitopsacr.azurecr.io
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
+
+      - name: Build and push image
+        run: |
+          docker build -t kavyagitopsacr.azurecr.io/kavya-app:latest .
+          docker push kavyagitopsacr.azurecr.io/kavya-app:latest
