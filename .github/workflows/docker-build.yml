@@ -23,5 +23,5 @@ jobs:
 
       - name: Build and push image
         run: |
-          docker build -t kavyagitopsacr.azurecr.io/kavya-app:latest .
-          docker push kavyagitopsacr.azurecr.io/kavya-app:latest
+          docker build -t kavyagitopsacr.azurecr.io/kavya-app:${{ github.sha }} .
+          docker push kavyagitopsacr.azurecr.io/kavya-app:${{ github.sha }}
