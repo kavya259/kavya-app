@@ -24,7 +24,7 @@ jobs:
       - name: Build and push image
         run: |
           docker build -t kavyagitopsacr.azurecr.io/kavya-app: ${{github.sha}}.
-          docker push kavyagitopsacr.azurecr.io/kavya-app:7d169be:${{github.sha}}
+          docker push kavyagitopsacr.azurecr.io/kavya-app:${{github.sha}}
 
       - name: Update GitOps repo
         run: |
