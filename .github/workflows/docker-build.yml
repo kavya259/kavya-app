@@ -23,5 +23,16 @@ jobs:
 
       - name: Build and push image
         run: |
-          docker build -t kavyagitopsacr.azurecr.io/kavya-app:7d169be .
-          docker push kavyagitopsacr.azurecr.io/kavya-app:7d169be
+          docker build -t kavyagitopsacr.azurecr.io/kavya-app: ${{github.sha}}.
+          docker push kavyagitopsacr.azurecr.io/kavya-app:7d169be:${{github.sha}}
+
+      - name: Update GitOps repo
+        run: |
+            git clone https://x-access-token:${{ secrets.GITOPS_PAT }}@github.com/kavya259/gitops-manifests.git
+            cd gitops manifests
+            set -i "s|image: .*|image: kavyagitopsacr.azurecr.io/kavya-app:${{github.sha}}|g" guestbook-ui-deployment.yaml
+            git config user.name "github-actions"
+            git config user.email "github-actions@github.com"
+            git add guestbook/guestbook-ui-deployment.yaml
+            git commit -m "Update image ${{github.sha}}"
+            git push
