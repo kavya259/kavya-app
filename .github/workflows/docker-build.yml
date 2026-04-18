@@ -29,7 +29,7 @@ jobs:
       - name: Update GitOps repo
         run: |
             git clone https://x-access-token:${{ secrets.GITOPS_PAT }}@github.com/kavya259/gitops-manifests.git
-            cd gitops manifests
+            cd gitops-manifests
             sed -i "s|image: .*|image: kavyagitopsacr.azurecr.io/kavya-app:${{github.sha}}|g" guestbook-ui-deployment.yaml
             git config user.name "github-actions"
             git config user.email "github-actions@github.com"
